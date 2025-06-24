@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+
+# Environment
+.env
+venv/
+env/
+*.env
+
+# IDEs
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# App data
+data/rate_cards/*.pdf
+data/client_data.csv
+data/economic_summary.csv
+
+# Video demo or output files
+*.mp4
+*.avi

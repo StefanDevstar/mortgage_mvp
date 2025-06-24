@@ -1,0 +1,8 @@
+langgraph
+langchain
+pandas
+python-dotenv
+openai
+groq
+email-validator
+PyMuPDF
