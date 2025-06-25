@@ -6,3 +6,6 @@ openai
 groq
 email-validator
 PyMuPDF
+bs4
+tabula-py
+camelot-py[cv]
