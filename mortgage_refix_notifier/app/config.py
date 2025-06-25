@@ -11,3 +11,15 @@ class CustomState(TypedDict, total=False):
     repayment_options: List[dict]
     email_content: str
     follow_up_reminder: Optional[str]
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+class Config:
+    MONGO_URI = os.getenv('MONGO_URI')
+    CORELOGIC_API_KEY = os.getenv('CORELOGIC_API_KEY')
+    CORELOGIC_BASE_URL = os.getenv('CORELOGIC_BASE_URL', 'https://api.corelogic.co.nz')
+    GMAIL_CLIENT_ID = os.getenv('GMAIL_CLIENT_ID')
+    GMAIL_CLIENT_SECRET = os.getenv('GMAIL_CLIENT_SECRET')

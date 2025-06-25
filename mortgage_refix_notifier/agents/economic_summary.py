@@ -5,7 +5,7 @@ import json
 
 INSIGHTS_FILE = "latest_insights.json"
 ECON_URLS = [
-    "https://www.moneyhub.co.nz/interest-rate-predictions.html"
+    "https://www.tonyalexander.nz/latest-tonys-view/"
 ]
 
 def fetch_insights():
@@ -13,7 +13,7 @@ def fetch_insights():
     for url in ECON_URLS:
         resp = requests.get(url)
         soup = BeautifulSoup(resp.text, "html.parser")
-        print(soup.body.get_text())
+        print(soup.get_text())
         # This selector will depend on the actual site structure
         headlines = soup.select("h2, h3, li, div, span")
         for headline in headlines:
