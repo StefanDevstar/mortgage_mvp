@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# ✅ Function to extract the rate table from the PDF
+
 def extract_rate_table(pdf_path):
     """
     Extracts the largest table from the PDF using Camelot.
@@ -26,8 +26,8 @@ def extract_rate_table(pdf_path):
 
     print("📄 Extracted Raw Table:\n", df)
 
-    # Assign generic column names based on observed structure
-    df.columns = ['col_0', 'col_1', 'col_2', 'col_3', 'col_4']
+    # ✅ Dynamically set column names based on the number of columns
+    df.columns = [f'col_{i}' for i in range(df.shape[1])]
     df = df.reset_index(drop=True)
 
     print("📄 Processed Table:\n", df)
@@ -35,7 +35,6 @@ def extract_rate_table(pdf_path):
     return df
 
 
-# ✅ Helper function to safely convert string to float
 def _to_float(val):
     try:
         return float(
@@ -50,7 +49,6 @@ def _to_float(val):
         return None
 
 
-# ✅ Convert the dataframe into a structured dictionary with fallback handling
 def rate_table_to_dict(df):
     rates = {}
 
@@ -59,9 +57,8 @@ def rate_table_to_dict(df):
     for idx, row in df.iterrows():
         row = row.fillna("")
 
-        term = str(row['col_1']).strip()
+        term = str(row.get('col_1', '')).strip()
 
-        # ✅ Filter unwanted rows
         if (
             term in invalid_terms
             or "variable" in term.lower()
@@ -69,7 +66,6 @@ def rate_table_to_dict(df):
         ):
             continue
 
-        # 🔥 Fallback checks for shifted/misaligned data
         advertised = (
             _to_float(row.get('col_2'))
             or _to_float(row.get('col_1'))
@@ -98,7 +94,6 @@ def rate_table_to_dict(df):
     return rates
 
 
-# ✅ Wrapper function to parse the latest PDF in a folder
 def parse_latest_rate_card(folder_path="app/data/rate_cards"):
     pdf_files = [f for f in os.listdir(folder_path) if f.endswith(".pdf")]
     if not pdf_files:
@@ -122,7 +117,6 @@ def parse_latest_rate_card(folder_path="app/data/rate_cards"):
     return rates
 
 
-# ✅ Run as standalone script to test
 if __name__ == "__main__":
     rates = parse_latest_rate_card()
     print("🎯 Extracted Mortgage Rates:", rates)
