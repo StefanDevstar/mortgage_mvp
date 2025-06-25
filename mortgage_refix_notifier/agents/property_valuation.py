@@ -1,4 +1,5 @@
 import random
+from agents.corelogic.valuation_agent import fetch_valuation
 
 def get_property_valuation(address: str) -> dict:
     """
@@ -7,8 +8,7 @@ def get_property_valuation(address: str) -> dict:
     """
 
     # Simulate API output with random valuation logic
-    base_value = random.randint(400000, 600000)
-    valuation = round(base_value * random.uniform(0.9, 1.1), 2)
+    valuation = fetch_valuation(address)
 
     print(f"Estimated valuation for {address}: ${valuation}")
     return {

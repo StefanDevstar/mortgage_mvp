@@ -1,10 +1,12 @@
 # app/main.py
 
+import os
 import pandas as pd
 #from orchestrator import run_orchestration
+from dotenv import load_dotenv
 from app.orchestrator import run_orchestration
 
-import os
+
 
 def load_synthetic_crm_data():
     data_path = os.path.join(os.path.dirname(__file__), "data", "synthetic_crm.csv")

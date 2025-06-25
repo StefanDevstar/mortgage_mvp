@@ -1,29 +1,43 @@
-import pandas as pd
-from typing import Dict
+import requests
+from bs4 import BeautifulSoup
+import datetime
+import json
 
-class EconomicSummaryAgent:
-    def __init__(self, csv_path: str = "app/data/economic_summary.csv"):
-        self.data = pd.read_csv(csv_path)
+INSIGHTS_FILE = "latest_insights.json"
+ECON_URLS = [
+    "https://www.moneyhub.co.nz/interest-rate-predictions.html"
+]
 
-    def get_summary_for_region(self, region: str) -> Dict[str, float]:
-        row = self.data[self.data["Region"].str.lower() == region.lower()]
-        if row.empty:
-            return {
-                "UnemploymentRate": None,
-                "MedianIncome": None,
-                "InflationRate": None,
-                "GrowthRate": None
-            }
-        row = row.iloc[0]
-        return {
-            "UnemploymentRate": row["UnemploymentRate"],
-            "MedianIncome": row["MedianIncome"],
-            "InflationRate": row["InflationRate"],
-            "GrowthRate": row["GrowthRate"]
-        }
+def fetch_insights():
+    insights = []
+    for url in ECON_URLS:
+        resp = requests.get(url)
+        soup = BeautifulSoup(resp.text, "html.parser")
+        print(soup.body.get_text())
+        # This selector will depend on the actual site structure
+        headlines = soup.select("h2, h3, li, div, span")
+        for headline in headlines:
+            text = headline.get_text(strip=True)
+            if any(word in text.lower() for word in ["mortgage", "rate", "inflation", "rbnz", "interest"]):
+                insights.append(text)
+            if len(insights) >= 3:
+                break
+        if len(insights) >= 2:
+            break
 
-# Example usage:
+    return insights
+
+def get_latest_insights():
+    try:
+        with open(INSIGHTS_FILE, "r") as f:
+            data = json.load(f)
+            if data["date"] == datetime.date.today().isoformat():
+                return data["insights"]
+    except Exception:
+        pass
+    return fetch_insights()
+
+# Usage:
 if __name__ == "__main__":
-    agent = EconomicSummaryAgent()
-    summary = agent.get_summary_for_region("Dunedin")
-    print(summary)
+    insights = get_latest_insights()
+    print("Today's economic insights:", insights)
