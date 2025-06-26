@@ -19,8 +19,8 @@ def start_scheduler():
     # Run every day at 02:00 AM
     scheduler.add_job(
         func=process_all_jobs,
-        # trigger=CronTrigger(hour=2, minute=0),
-        trigger=CronTrigger(minute="*"),
+        trigger=CronTrigger(hour=2, minute=0),
+        # trigger=CronTrigger(minute="*"),
         id="daily_refix_job",
         replace_existing=True
     )
