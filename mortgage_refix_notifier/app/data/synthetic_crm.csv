@@ -1,4 +1,4 @@
-client_id,name,email,mortgage_start,mortgage_end,loan_amount,fixed_rate,address
+client_id,client_name,email,mortgage_start,mortgage_end,loan_amount,fixed_rate,address
 C001,Alice Johnson,alice@example.com,01-06-2020,30-06-2025,480000,3.25,14 Longview Ave
 C002,Ben Smith,ben@example.com,15-01-2021,10-07-2025,520000,3.45,22 Sunny Road
 C003,Clara Brown,clara@example.com,10-03-2022,09-03-2026,410000,3.1,8 Beachside Lane

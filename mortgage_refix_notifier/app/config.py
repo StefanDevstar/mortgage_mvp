@@ -1,5 +1,6 @@
 # app/config.py
-
+import os
+from dotenv import load_dotenv
 from typing import TypedDict, Optional, List
 
 class CustomState(TypedDict, total=False):
@@ -12,8 +13,7 @@ class CustomState(TypedDict, total=False):
     email_content: str
     follow_up_reminder: Optional[str]
 
-import os
-from dotenv import load_dotenv
+
 
 load_dotenv()
 
