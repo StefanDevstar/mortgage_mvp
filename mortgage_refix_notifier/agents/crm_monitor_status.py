@@ -1,6 +1,5 @@
 import os
 import pandas as pd
-from datetime import datetime
 import logging
 from typing import List, Dict
 
@@ -9,43 +8,36 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-logger = logging.getLogger('crm_monitor')
+logger = logging.getLogger('crm_monitor_status')
 
-def scrape_crm_data(
+def scrape_crm_by_status(
     file_path: str,
-    expiry_column: str = "Expiry_Date",
-    filter_days: int = 90,
-    amount_column: str = "Loan_Amount",
+    status: str,
     **csv_kwargs
 ) -> List[Dict]:
     """
     Scrapes CRM data from CSV and filters records 
-    where the expiry date is exactly 'filter_days' days from today.
+    based on the 'Status' column (e.g., DRAFT_FOR_BROKER, AWAITING_BROKER_REVIEW).
     """
     try:
-        required_columns = ["Customer", "Lender", "Rate_Type", expiry_column, amount_column, "Address"]
+        required_columns = ["Customer", "Lender", "Rate_Type", "Expiry_Date", "Loan_Amount", "Address", "Status"]
 
         logger.info(f"Reading CRM data from: {file_path}")
 
         df = pd.read_csv(
             file_path,
-            parse_dates=[expiry_column],
+            parse_dates=["Expiry_Date"],
             dayfirst=True,
             usecols=lambda col: col in required_columns,
             **csv_kwargs
         )
 
-        # ✅ Filter for expiry exactly 'filter_days' days from today
-        today = pd.Timestamp(datetime.today()).normalize()
-        target_date = today + pd.Timedelta(days=filter_days)
-
-        filtered_df = df[
-            (df[expiry_column].dt.normalize() == target_date)
-        ].copy()
+        # ✅ Filter data by 'Status'
+        filtered_df = df[df['Status'].str.strip().str.upper() == status.strip().upper()].copy()
 
         client_data = filtered_df.to_dict(orient="records")
 
-        logger.info(f"Found {len(client_data)} loans expiring exactly in {filter_days} days")
+        logger.info(f"Found {len(client_data)} clients with status '{status}'")
         return client_data
 
     except Exception as e:
@@ -56,27 +48,28 @@ def scrape_crm_data(
 def main():
     try:
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_anonymized.csv")
+        crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_modified.csv")
 
-        clients = scrape_crm_data(
+        # ✅ Example: Filter clients where status is 'AWAITING_BROKER_REVIEW'
+        clients = scrape_crm_by_status(
             file_path=crm_path,
-            expiry_column="Expiry_Date",
-            filter_days=90,
+            status="AWAITING_BROKER_REVIEW",
             delimiter=","
         )
 
         if clients:
-            logger.info("Expiring loans summary:")
+            logger.info("Clients summary with selected status:")
             for loan in clients:
                 logger.info(
                     f"Customer: {loan['Customer']}, "
                     f"Lender: {loan['Lender']}, "
                     f"Rate: {loan['Rate_Type']}, "
                     f"Expires: {loan['Expiry_Date'].strftime('%Y-%m-%d')}, "
-                    f"Amount: ${loan['Loan_Amount']:,}"
+                    f"Amount: ${loan['Loan_Amount']:,}, "
+                    f"Status: {loan['Status']}"
                 )
         else:
-            logger.info("No expiring loans found")
+            logger.info("No clients found with the specified status")
 
     except Exception as e:
         logger.error(f"Monitoring failed: {e}")

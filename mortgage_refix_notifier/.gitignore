@@ -30,3 +30,7 @@ data/economic_summary.csv
 # Video demo or output files
 *.mp4
 *.avi
+# API credentials and tokens
+credentials.json
+token.pickle
+latest_insights.json  # cached economic summary
