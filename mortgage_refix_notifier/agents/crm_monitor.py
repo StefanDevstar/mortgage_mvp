@@ -11,8 +11,11 @@ logging.basicConfig(
 )
 logger = logging.getLogger('crm_monitor')
 
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_modified.csv")
+
 def scrape_crm_data(
-    file_path: str,
+    file_path: str = crm_path,
     expiry_column: str = "Expiry_Date",
     filter_days: int = 90,
     amount_column: str = "Loan_Amount",
@@ -40,7 +43,7 @@ def scrape_crm_data(
         target_date = today + pd.Timedelta(days=filter_days)
 
         filtered_df = df[
-            (df[expiry_column].dt.normalize() == target_date)
+            (df[expiry_column].dt.normalize() < target_date)
         ].copy()
 
         client_data = filtered_df.to_dict(orient="records")
@@ -55,8 +58,7 @@ def scrape_crm_data(
 
 def main():
     try:
-        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_anonymized.csv")
+        
 
         clients = scrape_crm_data(
             file_path=crm_path,

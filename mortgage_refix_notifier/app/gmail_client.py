@@ -8,6 +8,8 @@ from google.auth.transport.requests import Request
 # ✅ Gmail API scope
 SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
 
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 def get_service():
     creds = None

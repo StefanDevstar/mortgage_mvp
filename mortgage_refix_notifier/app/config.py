@@ -23,3 +23,4 @@ class Config:
     CORELOGIC_BASE_URL = os.getenv('CORELOGIC_BASE_URL', 'https://api.corelogic.co.nz')
     GMAIL_CLIENT_ID = os.getenv('GMAIL_CLIENT_ID')
     GMAIL_CLIENT_SECRET = os.getenv('GMAIL_CLIENT_SECRET')
+    BROKER_EMAIL = os.getenv('BROKER_EMAIL')

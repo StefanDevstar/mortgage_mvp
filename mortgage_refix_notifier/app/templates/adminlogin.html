@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Mortgage</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/memberlogin.css') }}">
+</head>
+<body>
+  <div style="display:flex; flex-direction: row;justify-content:center;">
+    <!-- <img style="width:50px; height:50px;" src="{{ url_for('static', filename='images/logo.png') }}" alt="logo"> -->
+    <div class="title" >
+      <span class="pr">Mortgage</span><span class="ufia"></span>
+    </div>
+  </div>
+  <div class="slogan" style="margin-top: 20px;">Admin Login</div>
+  <div class="login-box">
+    {% if error %}
+    <div class="error" id="error-message">{{ error }}</div>
+    {% endif %}
+    <form action="/admin-login" method="POST">
+      <label for="email">Email</label>
+      <input type="text" id="email" class="form-control" name="email" placeholder="Enter your email" required>
+      <label for="code">Password</label>
+      <input type="password" id="code" name="code" placeholder="Enter your password" required>
+      <button type="submit" class="login-btn">Login</button>
+    </form>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const errorMessage = document.getElementById('error-message');
+      if (errorMessage) {
+        setTimeout(function() {
+          errorMessage.style.opacity = '0';
+          setTimeout(function() {
+            errorMessage.style.display = 'none';
+          }, 500); 
+        }, 3000); 
+      }
+    });
+  </script>
+</body>
+</html>

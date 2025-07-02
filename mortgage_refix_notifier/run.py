@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from pymongo import MongoClient
 from bson.objectid import ObjectId
@@ -7,10 +8,22 @@ from app.tasks import process_all_jobs
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-app = Flask(__name__)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'app', 'templates')
+STATIC_DIR = os.path.join(BASE_DIR, 'app', 'static')
+
+app = Flask(
+    __name__,
+    template_folder=TEMPLATE_DIR,
+    static_folder=STATIC_DIR,
+)
+
+app.secret_key = 'mortgage_agent'
+
 app.config.from_object(Config)
 # Setup Mongo
 client = MongoClient(Config.MONGO_URI)
+print("Config.MONGO_URI", Config.MONGO_URI)
 db = client["mortgage"]
 
 def start_scheduler():
@@ -29,6 +42,16 @@ def start_scheduler():
 # Kick off the scheduler when Flask starts
 with app.app_context():
     start_scheduler()
+
+
+from app.routes.admin_routes import admin_bp
+
+app.register_blueprint(admin_bp)
+
+
+@app.route('/', methods=['GET'])
+def root():
+    return jsonify({'status': 'Tasks executed'}), 200
 
 
 # Endpoint to create a new refix job
@@ -65,10 +88,15 @@ def approve_job(job_id):
     return jsonify({'status': 'Client email sent'}), 200
 
 # Webhook or manual trigger to retry tasks
-@app.route('/tasks/run', methods=['POST'])
+@app.route('/tasks/run', methods=['GET'])
 def run_tasks():
     process_all_jobs()
     return jsonify({'status': 'Tasks executed'}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(
+        debug=True,
+        host='0.0.0.0',
+        port=5001,
+        use_reloader=False
+    )

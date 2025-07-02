@@ -7,9 +7,6 @@ import pandas as pd
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from crm_monitor_status import scrape_crm_by_status
-from app.gmail_client import send_email
-
 
 # ✅ Load environment variables
 load_dotenv()
@@ -20,9 +17,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ✅ Load CRM Data
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_modified.csv")
-
-# ✅ Fetch clients whose status is 'AWAITING_CLIENT_RESPONSE'
-crm_data = scrape_crm_by_status(file_path=crm_path, status="AWAITING_CLIENT_RESPONSE")
 
 
 # ✅ Create 60-Day Follow-Up Email Prompt
@@ -63,25 +57,10 @@ def generate_email_body(prompt):
 
 
 # 🚀 Main
-def main():
-    for client_info in crm_data:
-        prompt = create_followup_prompt(client_info)
-        email_body = generate_email_body(prompt)
-
-        print("\n================ 60-DAY FOLLOW-UP EMAIL =================\n")
-        print(email_body)
-        print("\n==========================================================")
-
-        approve = input("✅ Do you want to send this follow-up email? (yes/no): ").strip().lower()
-
-        if approve == "yes":
-            to_address = "indumathydevanathasamy@gmail.com"
-            subject = "Reminder: Your Fixed Rate Expiry is Coming Up"
-            send_email(to_address, subject, email_body)
-            print(f"✅ Follow-up email sent to {to_address}")
-        else:
-            print("❌ Email NOT sent.")
-
+def main(client_info):
+    prompt = create_followup_prompt(client_info)
+    email_body = generate_email_body(prompt)
+    return email_body
 
 if __name__ == "__main__":
     main()

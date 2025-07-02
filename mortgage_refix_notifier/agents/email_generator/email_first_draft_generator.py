@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 # ✅ Import the new CRM monitor with status filtering
-from crm_monitor_status import scrape_crm_by_status
 from app.gmail_client import send_email
 
 
@@ -22,7 +21,6 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 # ✅ Load CRM Data based on status 'DRAFT_FOR_BROKER'
 base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_modified.csv")
-crm_data = scrape_crm_by_status(file_path=crm_path, status="DRAFT_FOR_BROKER")
 
 
 # ✅ Create Email Prompt
@@ -77,29 +75,11 @@ def generate_email_body(prompt):
 
 
 # 🚀 Main Email Draft + Approval Flow
-def main():
-    if not crm_data:
-        print("❌ No clients found with status DRAFT_FOR_BROKER")
-        return
-
-    for client_info in crm_data:
-        prompt = create_email_prompt(client_info)
-        email_body = generate_email_body(prompt)
-
-        print("\n================ EMAIL DRAFT =================\n")
-        print(email_body)
-        print("\n==============================================")
-
-        approve = input("✅ Do you want to send this email? (yes/no): ").strip().lower()
-
-        if approve == "yes":
-            to_address = "indumathydevanathasamy@gmail.com"  # ✅ Your email for testing
-            subject = "Upcoming Fixed-Rate Home Loan Expiry - Action Required"
-            send_email(to_address, subject, email_body)
-            print(f"✅ Email sent to {to_address}")
-        else:
-            print("❌ Email NOT sent.")
-
+def main(client_info):
+   
+    prompt = create_email_prompt(client_info)
+    email_body = generate_email_body(prompt)
+    return email_body
 
 if __name__ == "__main__":
     main()
