@@ -4,7 +4,7 @@ APScheduler==3.11.0
 beautifulsoup4==4.13.4
 blinker==1.9.0
 bs4==0.0.2
-bson==0.5.10
+#bson==0.5.10
 cachetools==5.5.2
 camelot-py==1.0.0
 certifi==2025.6.15
@@ -67,7 +67,8 @@ pydantic_core==2.33.2
 pymongo==4.13.2
 PyMuPDF==1.26.1
 pyparsing==3.2.3
-pypdf==3.17.4
+pypdf
+#pypdf==3.17.4
 pypdfium2==4.30.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1

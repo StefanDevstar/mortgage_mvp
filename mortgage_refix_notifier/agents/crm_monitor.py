@@ -26,7 +26,9 @@ def scrape_crm_data(
     where the expiry date is exactly 'filter_days' days from today.
     """
     try:
-        required_columns = ["Customer", "Lender", "Rate_Type", expiry_column, amount_column, "Address"]
+        required_columns = ["Customer", "Lender", "Rate_Type", expiry_column, amount_column, "Address", "client_email"]
+        #required_columns = ["Customer", "Address", "Lender", "Loan_Amount", "Rate_Type", "Expiry_Date", "client_email"]
+
 
         logger.info(f"Reading CRM data from: {file_path}")
 

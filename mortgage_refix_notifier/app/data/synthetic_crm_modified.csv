@@ -1,7 +1,7 @@
-Customer,Lender,Rate_Type,Expiry_Date,Loan_Amount,Communication_Sent,Address,Status
-ClientA,ASB,Fixed,26-09-2025,480000,No,LocationA,DRAFT_FOR_BROKER
-ClientB,ASB,Fixed,26-08-2025,520000,No,LocationB,AWAITING_BROKER_REVIEW
-ClientC,ASB,Fixed,27-07-2026,410000,No,LocationC,FIRST_EMAIL_SENT
-ClientD,ASB,Fixed,07-07-2027,390000,Yes,LocationD,AWAITING_CLIENT_RESPONSE
-ClientE,ASB,Fixed,02-07-2025,450000,No,LocationE,DRAFT_SECOND_FOR_BROKER
-ClientF,ASB,Fixed,28-09-2025,500000,Yes,LocationF,CLIENT_RESPONDED
+Customer,Lender,Rate_Type,Expiry_Date,Loan_Amount,Communication_Sent,Address,client_email
+ClientA,ASB,Fixed,16-09-2025,480000,No,LocationA,indumathydevanathasamy@gmail.com
+ClientB,ASB,Fixed,16-09-2025,520000,No,LocationB,indumathydevanathasamy@gmail.com
+ClientC,ASB,Fixed,01-10-2025,410000,No,LocationC,indumathydevanathasamy@gmail.com
+ClientD,ASB,Fixed,01-10-2025,390000,Yes,LocationD,indumathydevanathasamy@gmail.com
+ClientE,ASB,Fixed,01-10-2025,450000,No,LocationE,indumathydevanathasamy@gmail.com
+ClientF,ASB,Fixed,01-10-2025,500000,Yes,LocationF,indumathydevanathasamy@gmail.com
