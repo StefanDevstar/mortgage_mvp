@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, render_template, session, redirec
 
 # Imports from your existing services
 from app.services.auth.login import add_default_admin, handle_admin_login
+from app.services.dashboard import getMetrics
 
 admin_bp = Blueprint('admin', __name__)
 
@@ -21,7 +22,8 @@ def admins():
         return redirect(url_for('admin.adminLogin'))
 
     return render_template(
-        'admin_page.html'
+        'admin_page.html',
+         metrics = getMetrics()
     )
 
 
@@ -53,3 +55,11 @@ def admin_logout():
     """
     session.clear()
     return jsonify({'redirect_url': url_for('admin.adminLogin')})
+
+
+# /* *************** API for Metrics **************/
+@admin_bp.route('/metrics')
+def get_metrics():
+    metrics = getMetrics()
+    return jsonify({'metrics': metrics})
+ 

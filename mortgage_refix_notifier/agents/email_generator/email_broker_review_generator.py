@@ -46,7 +46,7 @@ def create_broker_review_prompt(client_info, client_email_body):
 
         Below is an email draft to the client. Would you like to send it?
 
-        <Send to Client>    <Edit>
+        <a href="{os.getenv("OPENAI_API_KEY")}/send-email">Send to Client</a>    <Edit>
 
         --- Client Email Draft Starts ---
 

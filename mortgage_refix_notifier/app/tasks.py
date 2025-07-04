@@ -52,7 +52,7 @@ def process_all_jobs():
     # 2. Broker reminder
     for job in db.jobs.find({'state': 'AWAITING_BROKER_REVIEW', 'last_sent_at': {'$lte': now - timedelta(days=2)}}):
         gmail_client.send_email(to_address=Config.BROKER_EMAIL, subject="Reminder: Refix review pending", body=f"Please review job {job['_id']}")
-        db.jobs.update_one({'_id': job['_id']}, {'$set': {'last_sent_at': now}})
+        db.jobs.update_one({'_id': job['_id']}, {'$set': {'state': 'FIRST_EMAIL_SENT', 'last_sent_at': now}})
 
     # 3. Send follow-up to client if no response
     for job in db.jobs.find({'state': 'FIRST_EMAIL_SENT', 'next_action_at': {'$lte': now}}):

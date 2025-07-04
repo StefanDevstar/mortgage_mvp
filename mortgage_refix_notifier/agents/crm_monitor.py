@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 import logging
 from typing import List, Dict
-
+from app.services.dashboard import saveLog
 # ✅ Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -53,13 +53,13 @@ def scrape_crm_data(
 
     except Exception as e:
         logger.error(f"Error processing CRM data: {str(e)}", exc_info=True)
+        saveLog(f"Error processing CRM data: {str(e)}")
         raise
 
 
 def main():
     try:
         
-
         clients = scrape_crm_data(
             file_path=crm_path,
             expiry_column="Expiry_Date",

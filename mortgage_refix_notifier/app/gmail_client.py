@@ -45,6 +45,7 @@ def fetch_unread_replies():
     service = get_service()
     results = service.users().messages().list(userId='me', q='is:unread in:inbox').execute()
     messages = results.get('messages', [])
+    print("Unread Messages:", messages)
     replies = []
 
     for msg in messages:

@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import camelot
 from dotenv import load_dotenv
+from app.services.dashboard import saveLog
 
 load_dotenv()
 
@@ -14,10 +15,14 @@ def extract_rate_table(pdf_path):
         tables = camelot.read_pdf(pdf_path, pages='1-end', flavor='stream')
     except Exception as e:
         print(f"❌ Error reading PDF: {e}")
+        saveLog(f"❌ Error reading PDF: {e}")
+
         return None
 
     if tables.n == 0:
         print("❌ No tables found in the PDF.")
+        saveLog(f"In Rate Card, No tables found in the PDF.")
+
         return None
 
     table = max(tables, key=lambda t: t.df.shape[0] * t.df.shape[1])
