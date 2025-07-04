@@ -33,9 +33,10 @@ def getMetrics():
         "SystemLogs": system_logs
     }
 
-def saveLog(message):
+def saveLog(type, message):
     # Create a log entry with the current timestamp
     log_entry = {
+        "type": type,
         "message": message,
         "timestamp": datetime.now()  # Current date and time
     }

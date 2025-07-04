@@ -24,25 +24,25 @@ def create_followup_prompt(client_info):
     expiry_date = pd.to_datetime(client_info["Expiry_Date"], dayfirst=True).strftime('%d %B %Y')
     
     prompt = f"""
-You are a professional mortgage advisor.
+    You are a professional mortgage advisor.
 
-Generate a simple and direct follow-up email to the client, because it's been 30 days since the first email. The tone should be clear, polite, and informative — not pushy.
+    Generate a simple and direct follow-up email to the client, because it's been 30 days since the first email. The tone should be clear, polite, and informative — not pushy.
 
-✅ Format:
+    ✅ Format:
 
-Hi {client_info['Customer']},
+    Hi {client_info['Customer']},
 
-I emailed you about a month ago letting you know that your fixed rate expiry is coming up.
+    I emailed you about a month ago letting you know that your fixed rate expiry is coming up.
 
-Have a look at the email I sent you and let me know if you would like a run down of the situation to explore your options.
+    Have a look at the email I sent you and let me know if you would like a run down of the situation to explore your options.
 
-You have about 60 days before your fixed rate expires (on {expiry_date}).
+    You have about 60 days before your fixed rate expires (on {expiry_date}).
 
-Just reply to this email if you'd like to discuss further.
+    Just reply to this email if you'd like to discuss further.
 
-Kind regards,  
-Advisor
-"""
+    Kind regards,  
+    Advisor
+    """
     return prompt
 
 

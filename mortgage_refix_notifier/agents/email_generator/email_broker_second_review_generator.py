@@ -7,7 +7,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from agents.email_generator.email_first_draft_generator import create_email_prompt, generate_email_body as generate_client_email
+from agents.email_generator.email_client_response_with_rates import generate_client_email_with_rates
 from app.gmail_client import send_email
 
 
@@ -65,13 +65,12 @@ def generate_email_body(prompt):
 # 🚀 Main Email Draft + Approval Flow
 def main(client_info):
     # Generate client email content (plain text)
-    client_prompt = create_email_prompt(client_info)
-    client_email_body = generate_client_email(client_prompt)
+    client_email_body = generate_client_email_with_rates(client_info)
     client_subject = "Upcoming Fixed-Rate Home Loan Expiry - Action Required"
 
     # Generate broker-facing email (HTML)
     broker_email_body = create_broker_review_prompt(client_info, client_email_body)
-    broker_subject = f"Refix Review - {client_info['Customer']}"
+    broker_subject = f"Refix Review Second Email- {client_info['Customer']}"
 
     return {
         "broker_subject": broker_subject,
@@ -79,6 +78,3 @@ def main(client_info):
         "client_subject": client_subject,
         "client_body": client_email_body
     }
-
-if __name__ == "__main__":
-    main()

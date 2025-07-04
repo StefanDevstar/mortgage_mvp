@@ -26,7 +26,7 @@ def scrape_crm_data(
     where the expiry date is exactly 'filter_days' days from today.
     """
     try:
-        required_columns = ["Customer", "Lender", "Rate_Type", expiry_column, amount_column, "Address"]
+        required_columns = ["Customer", "Lender", "Rate_Type", expiry_column, amount_column, "Address", "client_email"]
 
         logger.info(f"Reading CRM data from: {file_path}")
 
@@ -53,38 +53,36 @@ def scrape_crm_data(
 
     except Exception as e:
         logger.error(f"Error processing CRM data: {str(e)}", exc_info=True)
-        saveLog(f"Error processing CRM data: {str(e)}")
+        saveLog("scrape_crm_data", f"Error processing CRM data: {str(e)}")
         raise
 
 
-def main():
-    try:
+# def main():
+#     try:
         
-        clients = scrape_crm_data(
-            file_path=crm_path,
-            expiry_column="Expiry_Date",
-            filter_days=90,
-            delimiter=","
-        )
+#         clients = scrape_crm_data(
+#             file_path=crm_path,
+#             expiry_column="Expiry_Date",
+#             filter_days=90,
+#             delimiter=","
+#         )
 
-        if clients:
-            logger.info("Expiring loans summary:")
-            for loan in clients:
-                logger.info(
-                    f"Customer: {loan['Customer']}, "
-                    f"Lender: {loan['Lender']}, "
-                    f"Rate: {loan['Rate_Type']}, "
-                    f"Expires: {loan['Expiry_Date'].strftime('%Y-%m-%d')}, "
-                    f"Amount: ${loan['Loan_Amount']:,}"
-                )
-        else:
-            logger.info("No expiring loans found")
+#         if clients:
+#             logger.info("Expiring loans summary:")
+#             for loan in clients:
+#                 logger.info(
+#                     f"Customer: {loan['Customer']}, "
+#                     f"Lender: {loan['Lender']}, "
+#                     f"Rate: {loan['Rate_Type']}, "
+#                     f"Expires: {loan['Expiry_Date'].strftime('%Y-%m-%d')}, "
+#                     f"Amount: ${loan['Loan_Amount']:,}"
+#                 )
+#         else:
+#             logger.info("No expiring loans found")
 
-    except Exception as e:
-        logger.error(f"Monitoring failed: {e}")
-        return 1
-    return 0
+#     except Exception as e:
+#         logger.error(f"Monitoring failed: {e}")
+#         return 1
+#     return 0
 
 
-if __name__ == "__main__":
-    exit(main())

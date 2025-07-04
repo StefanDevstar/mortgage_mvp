@@ -15,13 +15,13 @@ def extract_rate_table(pdf_path):
         tables = camelot.read_pdf(pdf_path, pages='1-end', flavor='stream')
     except Exception as e:
         print(f"❌ Error reading PDF: {e}")
-        saveLog(f"❌ Error reading PDF: {e}")
+        saveLog("extract_rate_table", f"❌ Error reading PDF: {e}")
 
         return None
 
     if tables.n == 0:
         print("❌ No tables found in the PDF.")
-        saveLog(f"In Rate Card, No tables found in the PDF.")
+        saveLog("extract_rate_table", f"In Rate Card, No tables found in the PDF.")
 
         return None
 
@@ -109,7 +109,7 @@ def parse_latest_rate_card(folder_path="app/data/rate_cards"):
         [os.path.join(folder_path, f) for f in pdf_files],
         key=os.path.getctime,
     )
-    print(f"🗂️ Parsing rate card from: {latest_pdf}")
+    # print(f"🗂️ Parsing rate card from: {latest_pdf}")
 
     df = extract_rate_table(latest_pdf)
 
@@ -122,6 +122,6 @@ def parse_latest_rate_card(folder_path="app/data/rate_cards"):
     return rates
 
 
-if __name__ == "__main__":
-    rates = parse_latest_rate_card()
-    print("🎯 Extracted Mortgage Rates:", rates)
+# if __name__ == "__main__":
+#     rates = parse_latest_rate_card()
+#     print("🎯 Extracted Mortgage Rates:", rates)

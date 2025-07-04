@@ -19,11 +19,10 @@ load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # ✅ Load CRM Data
-base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-crm_path = os.path.join(base_dir, "app", "data", "synthetic_crm_modified.csv")
+crm_path = os.path.join("app", "data", "synthetic_crm_modified.csv")
 
 # ✅ Fetch clients with 'CLIENT_RESPONDED' status
-crm_data = scrape_crm_data(file_path=crm_path, status="CLIENT_RESPONDED")
+crm_data = scrape_crm_data(file_path=crm_path)
 
 # ✅ Fetch rate card
 rate_data = parse_latest_rate_card()
@@ -72,12 +71,9 @@ def create_email_body(client_info, rates, insights):
 
 
 # 🚀 Main Function
-def main(client_info):
+def generate_client_email_with_rates(client_info):
 
     email_body = create_email_body(client_info, rate_data, economic_summary)
 
     return email_body
 
-
-if __name__ == "__main__":
-    main()

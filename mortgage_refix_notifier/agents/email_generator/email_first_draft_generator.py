@@ -31,36 +31,36 @@ def create_email_prompt(client_info):
     weeks_to_expiry = max(((expiry - today).days) // 7, 0)
 
     prompt = f"""
-You are a professional mortgage advisor.
+            You are a professional mortgage advisor.
 
-Generate an email to the customer about their fixed-rate home loan expiry.
+            Generate an email to the customer about their fixed-rate home loan expiry.
 
-Use the following details:
-- Customer Name: {client_info['Customer']}
-- Lender: {client_info['Lender']}
-- Loan Amount: ${client_info['Loan_Amount']:,}
-- Expiry Date: {expiry_date} (in {weeks_to_expiry} weeks)
+            Use the following details:
+            - Customer Name: {client_info['Customer']}
+            - Lender: {client_info['Lender']}
+            - Loan Amount: ${client_info['Loan_Amount']:,}
+            - Expiry Date: {expiry_date} (in {weeks_to_expiry} weeks)
 
-✅ Follow this structure exactly:
+            ✅ Follow this structure exactly:
 
-Subject: Upcoming Fixed-Rate Home Loan Expiry - Action Required
+            Subject: Upcoming Fixed-Rate Home Loan Expiry - Action Required
 
-Hi {client_info['Customer']},
+            Hi {client_info['Customer']},
 
-Hope you are doing well.
+            Hope you are doing well.
 
-I am emailing regarding your lending with {client_info['Lender']}, as you have a facility that is coming up for refix in the next {weeks_to_expiry} weeks (on {expiry_date}).
+            I am emailing regarding your lending with {client_info['Lender']}, as you have a facility that is coming up for refix in the next {weeks_to_expiry} weeks (on {expiry_date}).
 
-Your {client_info['Lender']} loan details:
-Facility 1: ${client_info['Loan_Amount']:,} — action required.
+            Your {client_info['Lender']} loan details:
+            Facility 1: ${client_info['Loan_Amount']:,} — action required.
 
-We can request rates from {client_info['Lender']} to ensure that you are getting the best deal possible, as well as help you through the process of refixing.
+            We can request rates from {client_info['Lender']} to ensure that you are getting the best deal possible, as well as help you through the process of refixing.
 
-Please let us know how you would like to proceed.
+            Please let us know how you would like to proceed.
 
-Kind regards,  
-Advisor
-"""
+            Kind regards,  
+            Advisor
+            """
     return prompt
 
 

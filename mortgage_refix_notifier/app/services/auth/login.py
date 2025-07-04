@@ -4,7 +4,6 @@ from pymongo import MongoClient
 from app.config import Config
 
 client = MongoClient(Config.MONGO_URI)
-print("Config.MONGO_URI", Config.MONGO_URI)
 db = client["mortgage"]
 
 def add_default_admin():
