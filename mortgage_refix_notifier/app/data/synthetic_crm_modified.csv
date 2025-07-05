@@ -1,7 +1,5 @@
 Customer,Lender,Rate_Type,Expiry_Date,Loan_Amount,Communication_Sent,Address,client_email
 ClientA,ASB,Fixed,16-09-2025,480000,No,LocationA,smallbaby102@outlook.com
-ClientB,ASB,Fixed,16-09-2025,520000,No,LocationB,smallbaby102@outlook.com
-ClientC,ASB,Fixed,01-10-2025,410000,No,LocationC,smallbaby102@outlook.com
+ClientB,ASB,Fixed,16-09-2025,520000,No,LocationB,scarlett.aroha.r@gmail.com
+ClientC,ASB,Fixed,01-10-2025,410000,No,LocationC,archgardnerai@gmail.com
 ClientD,ASB,Fixed,01-10-2025,390000,Yes,LocationD,smallbaby102@outlook.com
-ClientE,ASB,Fixed,01-10-2025,450000,No,LocationE,smallbaby102@outlook.com
-ClientF,ASB,Fixed,01-10-2025,500000,Yes,LocationF,smallbaby102@outlook.com
